@@ -18,7 +18,7 @@ func TestHandleRequest(t *testing.T) {
 
 	request := events.APIGatewayProxyRequest{
 		PathParameters: map[string]string{
-			"folder-name": "2024-02-23",
+			"folder-name": "2024-02-24",
 		},
 	}
 

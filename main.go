@@ -69,11 +69,7 @@ func HandleRequest(ctx context.Context, request events.APIGatewayProxyRequest) (
 		}
 		log.Printf("Read %d bytes from file %s", n, *item.Key)
 
-		if fileBuf.Len() == 0 {
-			log.Printf("Warning: File %s is empty", *item.Key)
-			continue
-		}
-
+		// Removed the check for zero-length files
 		relativePath := strings.TrimPrefix(*item.Key, fmt.Sprintf("%s/", targetFolderPath))
 		log.Printf("Adding file to zip: %s", relativePath)
 		zipFileWriter, err := zipWriter.Create(relativePath)
@@ -98,18 +94,6 @@ func HandleRequest(ctx context.Context, request events.APIGatewayProxyRequest) (
 
 	totalSize := buf.Len()
 	log.Printf("Total zip size: %d bytes", totalSize)
-
-	// if totalSize > 0 {
-	// 	previewLength := 500 * 1024 // 500 KB preview length
-	// 	if totalSize < previewLength {
-	// 		previewLength = totalSize
-	// 	}
-	// 	preview := make([]byte, previewLength)
-	// 	copy(preview, buf.Bytes()[:previewLength])
-	// 	log.Printf("Zip file content preview (first %d bytes): %s", previewLength, string(preview))
-	// } else {
-	// 	log.Printf("Zip file is empty")
-	// }
 
 	zipKey := fmt.Sprintf("%s/%s.zip", targetFolderPath, folderName)
 	putObjectParams := &s3.PutObjectInput{
