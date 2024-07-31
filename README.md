@@ -29,6 +29,14 @@ The function expects an `APIGatewayProxyRequest` with the following path paramet
 
 - `folder-name`: The name of the folder within the `TARGET_FOLDER_PATH` to be zipped.
 
+## Building
+
+```bash
+GOOS=linux GOARCH=amd64 go build -o main main.go
+zip function.zip main bootstrap
+```
+You can now upload the `function.zip` to AWS Lambda selecting Amazon Linux 2023 as the runtime and handler is main.handler.
+
 ## Setup and Deployment
 
 ### 1. Create IAM Role
